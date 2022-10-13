@@ -1,19 +1,19 @@
-@if($post->exists)
-<form action="{{route('admin.posts.update',$post)}}" method="POST">
-    @method('PUT')
-@else
-<form action="{{route('admin.posts.store')}}" method="POST">
-@endif
 @if ($errors->any())
-    <div class="alert alert-{{$error->type}}">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error->message}}</li>
-            @endforeach
-        </ul>
-    </div>
+<div class="alert alert-danger">
+    <ul>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error}}</li>
+        @endforeach
+    </ul>
+</div>
 @endif
 
+@if($post->exists)
+<form action="{{route('admin.posts.update',$post)}}" enctype="multipart/form-data" method="POST">
+    @method('PUT')
+@else
+<form action="{{route('admin.posts.store')}}" enctype="multipart/form-data" method="POST">
+@endif
     @csrf
     <div class="row">
         <div class="col-8">
@@ -56,10 +56,11 @@
             </fieldset>
         </div>
         @endif
+        {{-- immagine --}}
         <div class="col-11 my-3">
             <div class="form-group">
-                <label for="image">Immagine</label>
-                <input type="url" class="form-control" id="image-field" name="image" value="{{old('image', $post->image)}}">
+                <label style="display:block" for="image">Immagine</label>
+                <input type="file" id="image-field" name="image">
               </div>
         </div>
         <div class="col-1">
